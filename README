@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jbosnjak/iwaySnmpJmeterPlugin.svg?branch=master)](https://travis-ci.org/jbosnjak/iwaySnmpJmeterPlugin)
+
 DESCRIPTION:
 SNMP JMeter plugin supports all the jmeter snmp calls.
 
