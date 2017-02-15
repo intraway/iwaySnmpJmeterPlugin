@@ -1,13 +1,13 @@
-[![Build Status](https://travis-ci.org/jbosnjak/iwaySnmpJmeterPlugin.svg?branch=master)](https://travis-ci.org/jbosnjak/iwaySnmpJmeterPlugin)
+[![Build Status](https://travis-ci.org/intraway/iwaySnmpJmeterPlugin.svg?branch=master)](https://travis-ci.org/intraway/iwaySnmpJmeterPlugin)
 
 DESCRIPTION:
 SNMP JMeter plugin supports all the jmeter snmp calls.
 
 INSTALLATION:
-https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki/installation
+https://github.com/intraway/iwaySnmpJmeterPlugin/wiki/installation
 
 DETAILS:
-https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki
+https://github.com/intraway/iwaySnmpJmeterPlugin/wiki
 
 LICENSE:
 

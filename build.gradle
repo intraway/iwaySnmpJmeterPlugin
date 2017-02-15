@@ -1,13 +1,11 @@
-group = "com.github.jbosnjak"
+group = "com.github.intraway"
 //archivesBaseName = "iwaySNMPJMeterPlugin"
 description = 'Intraway SNMP JMeter Plugin'
 version="1.0.0"
 
 buildscript {
   repositories { mavenCentral() }
-  dependencies {
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-    }
+  dependencies { classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3" }
 }
 
 task wrapper(type: Wrapper) { gradleVersion = '2.14' }
@@ -18,7 +16,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'io.codearte.nexus-staging'
-apply plugin: 'signing'
+
 
 
 repositories {
@@ -62,32 +60,32 @@ test{
   ]
 }
 
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+artifacts { archives javadocJar, sourcesJar }
+
+
 if (project.hasProperty('release')) {
-  subprojects {
-    task javadocJar(type: Jar) {
-      classifier = 'javadoc'
-      from javadoc
-    }
-    
-    task sourcesJar(type: Jar) {
-      classifier = 'sources'
-      from sourceSets.main.allSource
-    }
-    artifacts {
-      archives javadocJar, sourcesJar
-    }
-  }
+  apply plugin: 'signing'
+
+
   allprojects {
-    signing {
-      sign configurations.archives
-    }
+    signing { sign configurations.archives }
     jar {
       archiveName = "${project.name}.jar"
-    
+
       def blankOrParam = { param ->
         param ? param : ''
       }
-    
+
       manifest {
         attributes (
             'Implementation-Title': project.getProperty("description"),
@@ -96,40 +94,40 @@ if (project.hasProperty('release')) {
             'buildLocalDate': new Date().toString())
       }
     }
-    
+
     uploadArchives {
       repositories {
         mavenDeployer {
           beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-    
+
           repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
             authentication(userName: ossrhUsername, password: ossrhPassword)
           }
-    
+
           //snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
           //  authentication(userName: ossrhUsername, password: ossrhPassword)
           //}
-    
+
           pom.project {
             name 'Iway SNMP Jmeter Plugin'
             packaging 'jar'
             // optionally artifactId can be defined here
             description 'A jmeter plugin that handles snmp request!!!'
-            url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
-    
+            url 'https://github.com/intraway/iwaySnmpJmeterPlugin/wiki'
+
             scm {
-              connection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
-              developerConnection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
-              url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
+              connection 'https://github.com/intraway/iwaySnmpJmeterPlugin.git'
+              developerConnection 'https://github.com/intraway/iwaySnmpJmeterPlugin.git'
+              url 'https://github.com/intraway/iwaySnmpJmeterPlugin/wiki'
             }
-    
+
             licenses {
               license {
                 name 'The Apache License, Version 2.0'
                 url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
               }
             }
-    
+
             developers {
               developer {
                 id 'jbosnjak'
@@ -142,12 +140,11 @@ if (project.hasProperty('release')) {
       }
     }
   }
-  
+
   nexusStaging {
     username = ossrhUsername
     password = ossrhPassword
-    packageGroup = "com.github.jbosnjak" //optional if packageGroup == project.getGroup()
-    //stagingProfileId = "jbosnjak"
+    packageGroup = "com.github.intraway" //optional if packageGroup == project.getGroup()
     numberOfRetries = 10
   }
 }
