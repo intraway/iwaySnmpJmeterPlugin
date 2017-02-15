@@ -1,10 +1,13 @@
-group = "com.intraway.technology.jmeter.plugin.snmp"
+group = "com.github.jbosnjak"
 //archivesBaseName = "iwaySNMPJMeterPlugin"
 description = 'Intraway SNMP JMeter Plugin'
 version="1.0.0"
 
 buildscript {
   repositories { mavenCentral() }
+  dependencies {
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+    }
 }
 
 task wrapper(type: Wrapper) { gradleVersion = '2.14' }
@@ -14,6 +17,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'io.codearte.nexus-staging'
 apply plugin: 'signing'
 
 
@@ -106,16 +110,16 @@ uploadArchives {
         authentication(userName: ossrhUsername, password: ossrhPassword)
       }
 
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+      //snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+      //  authentication(userName: ossrhUsername, password: ossrhPassword)
+      //}
 
       pom.project {
         name 'Iway SNMP Jmeter Plugin'
         packaging 'jar'
         // optionally artifactId can be defined here
         description 'A jmeter plugin that handles snmp request!!!'
-        url 'https://github.com/devotences/iwaySnmpJmeterPlugin/wiki'
+        url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
 
         scm {
           connection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
@@ -142,6 +146,13 @@ uploadArchives {
   }
 }
 
+nexusStaging {
+  username = ossrhUsername
+  password = ossrhPassword
+  packageGroup = "com.github.jbosnjak" //optional if packageGroup == project.getGroup()
+  //stagingProfileId = "jbosnjak"
+  numberOfRetries = 10
+}
 
 
 eclipse {
