@@ -15,7 +15,7 @@ import com.intraway.technology.jmeter.plugin.snmp.exception.SnmpException;
 
 /**
  * Simplest client possible
- * 
+ * @author jbosnjak
  *
  */
 public class SimpleSnmpClient {
