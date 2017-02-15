@@ -42,7 +42,7 @@ public class SnmpClientSetTest {
   public void snmpSetTestTimeout() throws Exception {
     String oid = ".1.3.6.1.4.1.2021.10.1.3.1";
     String community = "public";
-    String addr = "172.16.136.6";
+    String addr = System.getProperty("SERVER_IP_WITH_SNMP", "216.228.63.200");
     Integer port = 161;
     Integer timeout = 0;
     Integer retries = 0;

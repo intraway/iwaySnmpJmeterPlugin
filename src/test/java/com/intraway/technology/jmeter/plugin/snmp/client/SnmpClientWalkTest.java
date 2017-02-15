@@ -41,7 +41,7 @@ public class SnmpClientWalkTest {
     // CPU 1 minute Load
     String oid = ".1.3.6.1.2.1";
     String community = "public";
-    String addr = "172.16.136.6";
+    String addr = System.getProperty("SERVER_IP_WITH_SNMP", "216.228.63.200");
     Integer port = 161;
     Integer timeout = 1;
     Integer retries = 1;
@@ -59,7 +59,7 @@ public class SnmpClientWalkTest {
     // CPU 1 minute Load
     String oid = ".1.3.6.1.2.1.2.2.1.5.8000000";
     String community = "public";
-    String addr = "172.16.136.6";
+    String addr = System.getProperty("SERVER_IP_WITH_SNMP", "216.228.63.200");
     Integer port = 161;
     Integer timeout = 4000;
     Integer retries = 1;
