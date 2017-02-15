@@ -118,9 +118,9 @@ uploadArchives {
         url 'https://github.com/devotences/iwaySnmpJmeterPlugin/wiki'
 
         scm {
-          connection 'https://github.com/devotences/iwaySnmpJmeterPlugin.git'
-          developerConnection 'https://github.com/devotences/iwaySnmpJmeterPlugin.git'
-          url 'https://github.com/devotences/iwaySnmpJmeterPlugin/wiki'
+          connection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
+          developerConnection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
+          url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
         }
 
         licenses {
