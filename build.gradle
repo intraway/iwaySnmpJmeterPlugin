@@ -62,100 +62,96 @@ test{
   ]
 }
 
-task javadocJar(type: Jar) {
-  classifier = 'javadoc'
-  from javadoc
-}
-
-task sourcesJar(type: Jar) {
-  classifier = 'sources'
-  from sourceSets.main.allSource
-}
-artifacts {
-  archives javadocJar, sourcesJar
-}
-
-signing {
-  sign configurations.archives
-}
-
-jar {
-  archiveName = "${project.name}.jar"
-
-  def blankOrParam = { param ->
-    param ? param : ''
+if (project.hasProperty('release')) {
+  subprojects {
+    task javadocJar(type: Jar) {
+      classifier = 'javadoc'
+      from javadoc
+    }
+    
+    task sourcesJar(type: Jar) {
+      classifier = 'sources'
+      from sourceSets.main.allSource
+    }
+    artifacts {
+      archives javadocJar, sourcesJar
+    }
   }
-
-  manifest {
-    attributes (
-        'Implementation-Title': project.getProperty("description"),
-        'Implementation-Version': project.getProperty("version"),
-        'Implementation-Vendor': 'Intraway',
-        'buildLocalDate': new Date().toString())
-  }
-}
-
-publishing {
-  publications {
-    mavenJava(MavenPublication) { from components.java }
-  }
-}
-
-ossrhUsername= ''
-ossrhPassword= ''
-
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
+  allprojects {
+    signing {
+      sign configurations.archives
+    }
+    jar {
+      archiveName = "${project.name}.jar"
+    
+      def blankOrParam = { param ->
+        param ? param : ''
       }
-
-      //snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-      //  authentication(userName: ossrhUsername, password: ossrhPassword)
-      //}
-
-      pom.project {
-        name 'Iway SNMP Jmeter Plugin'
-        packaging 'jar'
-        // optionally artifactId can be defined here
-        description 'A jmeter plugin that handles snmp request!!!'
-        url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
-
-        scm {
-          connection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
-          developerConnection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
-          url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
-        }
-
-        licenses {
-          license {
-            name 'The Apache License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    
+      manifest {
+        attributes (
+            'Implementation-Title': project.getProperty("description"),
+            'Implementation-Version': project.getProperty("version"),
+            'Implementation-Vendor': 'Intraway',
+            'buildLocalDate': new Date().toString())
+      }
+    }
+    
+    uploadArchives {
+      repositories {
+        mavenDeployer {
+          beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    
+          repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            authentication(userName: ossrhUsername, password: ossrhPassword)
           }
-        }
-
-        developers {
-          developer {
-            id 'jbosnjak'
-            name 'Juan Pablo Bosnjak'
-            email 'juanpablobosnjak@gmail.com'
+    
+          //snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          //  authentication(userName: ossrhUsername, password: ossrhPassword)
+          //}
+    
+          pom.project {
+            name 'Iway SNMP Jmeter Plugin'
+            packaging 'jar'
+            // optionally artifactId can be defined here
+            description 'A jmeter plugin that handles snmp request!!!'
+            url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
+    
+            scm {
+              connection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
+              developerConnection 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin.git'
+              url 'https://github.com/jbosnjak/iwaySnmpJmeterPlugin/wiki'
+            }
+    
+            licenses {
+              license {
+                name 'The Apache License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+              }
+            }
+    
+            developers {
+              developer {
+                id 'jbosnjak'
+                name 'Juan Pablo Bosnjak'
+                email 'juanpablobosnjak@gmail.com'
+              }
+            }
           }
         }
       }
     }
   }
+  
+  nexusStaging {
+    username = ossrhUsername
+    password = ossrhPassword
+    packageGroup = "com.github.jbosnjak" //optional if packageGroup == project.getGroup()
+    //stagingProfileId = "jbosnjak"
+    numberOfRetries = 10
+  }
 }
 
-nexusStaging {
-  username = ossrhUsername
-  password = ossrhPassword
-  packageGroup = "com.github.jbosnjak" //optional if packageGroup == project.getGroup()
-  //stagingProfileId = "jbosnjak"
-  numberOfRetries = 10
-}
 
 
 eclipse {
