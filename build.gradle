@@ -101,6 +101,9 @@ publishing {
   }
 }
 
+ossrhUsername= ''
+ossrhPassword= ''
+
 uploadArchives {
   repositories {
     mavenDeployer {
