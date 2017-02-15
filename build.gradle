@@ -1,7 +1,7 @@
 group = "com.intraway.technology.jmeter.plugin.snmp"
 //archivesBaseName = "iwaySNMPJMeterPlugin"
 description = 'Intraway SNMP JMeter Plugin'
-version=1.0.0
+version="1.0.0"
 
 buildscript {
   repositories { mavenCentral() }
