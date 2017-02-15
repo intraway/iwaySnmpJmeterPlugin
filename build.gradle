@@ -58,7 +58,7 @@ configurations {
 test{
   maxParallelForks = 1
   systemProperties = [
-    SERVER_IP_WITH_SNMP: '172.16.136.6'
+    SERVER_IP_WITH_SNMP: '216.228.63.200'
   ]
 }
 
