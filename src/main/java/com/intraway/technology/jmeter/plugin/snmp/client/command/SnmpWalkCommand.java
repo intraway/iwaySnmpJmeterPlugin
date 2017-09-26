@@ -27,7 +27,8 @@ public class SnmpWalkCommand extends SnmpCommand {
   protected final static String name = "WALK";
   private static final Logger log = LoggerFactory.getLogger(SnmpWalkCommand.class);
 
-  public SnmpWalkCommand(Integer snmpVersion, String[] oid, String community, InetAddress destination, Integer port, Integer timeout, Integer retries) {
+  public SnmpWalkCommand(Integer snmpVersion, String[] oid, String community, InetAddress destination, Integer port, Integer timeout,
+      Integer retries) {
     super(snmpVersion, oid, community, destination, port, timeout, retries, 0);
     log.debug("Initializing SNMP WALK COMMAND", oid, community, destination, timeout, retries);
   }
@@ -85,18 +86,20 @@ public class SnmpWalkCommand extends SnmpCommand {
         }
 
         VariableBinding[] varBindings = event.getVariableBindings();
-        if (varBindings == null || varBindings.length == 0) {
+        if ((varBindings == null || varBindings.length == 0) && resp.isEmpty()) {
           log.debug("No result returned for event: {}", event);
           log.info("No result returned. Calling get");
           SnmpGetCommand get = new SnmpGetCommand(snmpVersion, oid, community, destination, port, timeout, retries);
           return get.execute();
         }
-        for (VariableBinding varBinding : varBindings) {
-          HashMap<String, String> item = new HashMap<String, String>();
-          item.put("oid", varBinding.getOid().toString());
-          item.put("value", varBinding.getVariable().toString());
-          item.put("type", varBinding.getVariable().getSyntaxString());
-          resp.add(item);
+        if (varBindings != null) {
+          for (VariableBinding varBinding : varBindings) {
+            HashMap<String, String> item = new HashMap<String, String>();
+            item.put("oid", varBinding.getOid().toString());
+            item.put("value", varBinding.getVariable().toString());
+            item.put("type", varBinding.getVariable().getSyntaxString());
+            resp.add(item);
+          }
         }
       }
     }

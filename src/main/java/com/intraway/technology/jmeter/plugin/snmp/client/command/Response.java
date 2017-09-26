@@ -22,5 +22,12 @@ public class Response {
   public List<HashMap<String, String>> get() {
     return data;
   }
+  
+  public boolean isEmpty() {
+    if (data!=null && !data.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
 
 }
